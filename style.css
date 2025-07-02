@@ -1,0 +1,204 @@
+body {
+  font-family: 'Kanit', sans-serif;
+  background-color: black;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  color: white !important;
+  transition: color 1s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: rgb(255, 255, 255);
+  transition: width 1s ease, background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+  width: 80%;
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+.carousel-caption h2 {
+  font-size: 1.5rem;
+}
+
+.carousel-caption p {
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .carousel-caption h2 {
+    font-size: 1.5rem;
+  }
+
+  .carousel-caption p {
+    font-size: 0.9rem;
+  }
+}
+
+/* หน้า portfolio */
+
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ปรับขนาดคอลัมน์ตามต้องการ */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลาง */
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden; /* สำคัญมาก: ซ่อนส่วนเกินของรูปภาพที่ถูกครอป */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    /* --- ส่วนเพิ่มเติมสำหรับปรับขนาดและครอปภาพ --- */
+    height: 300px; /* กำหนดความสูงที่แน่นอนของแต่ละกล่องรูปภาพ */
+    /* ถ้าต้องการให้เป็นสี่เหลี่ยมจัตุรัส ให้กำหนด width: 100%; และใช้ aspect-ratio แทน height */
+    /* aspect-ratio: 1 / 1; */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%; /* ทำให้รูปภาพเต็มความสูงของ gallery-item */
+    display: block;
+    transition: transform 0.3s ease;
+
+    /* --- สำคัญมาก: เพื่อให้รูปภาพครอปพอดีกับขนาดที่กำหนด --- */
+    object-fit: cover; /* รูปภาพจะถูกปรับขนาดให้เต็มพื้นที่และถูกครอปส่วนที่เกิน */
+    object-position: center; /* กำหนดจุดศูนย์กลางในการครอป (สามารถเปลี่ยนเป็น top, bottom, left, right ได้) */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: flex;
+    flex-direction: column; /* กลับเป็น column เพื่อจัดเนื้อหาให้ดูดีขึ้น */
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.overlay h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    /* สามารถเอา writing-mode ออกได้ถ้าไม่ต้องการข้อความแนวตั้งใน overlay */
+    /* writing-mode: vertical-rl; */
+    /* text-orientation: mixed; */
+    /* white-space: nowrap; */
+}
+
+.overlay p {
+    font-size: 1em;
+    margin-bottom: 20px;
+    /* สามารถเอา writing-mode ออกได้ถ้าไม่ต้องการข้อความแนวตั้งใน overlay */
+    /* writing-mode: vertical-rl; */
+    /* text-orientation: mixed; */
+    /* white-space: nowrap; */
+}
+
+.overlay .view-more {
+    color: white;
+    text-decoration: none;
+    border: 1px solid white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* อาจไม่ต้องใช้ position absolute ถ้า flex-direction เป็น column */
+    /* position: absolute; */
+    /* bottom: 20px; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+}
+
+.overlay .view-more:hover {
+    background-color: white;
+    color: #333;
+}
+
+/* --- Hover Effects --- */
+.gallery-item:hover img {
+    transform: scale(1.05); /* ขยายรูปภาพเล็กน้อยเมื่อเมาส์ไปชี้ */
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1; /* แสดง overlay เมื่อเมาส์ไปชี้ */
+}
+
+/* Fullscreen Slide-Up Panel */
+.fullscreen-panel {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2c2c2c;
+  color: white;
+  transition: bottom 0.5s ease;
+  z-index: 9999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.fullscreen-panel.open {
+  bottom: 0;
+}
+
+.fullscreen-panel img {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 36px;
+  cursor: pointer;
+  color: white;
+  z-index: 10000;
+}
+
+
+.container-footer {
+  font-size: 10px;
+}
