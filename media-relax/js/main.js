@@ -32,5 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof tvData !== 'undefined') renderCategory(tvData, 'list-tv');
     if (typeof movieData !== 'undefined') renderCategory(movieData, 'list-movies');
     if (typeof seriesData !== 'undefined') renderCategory(seriesData, 'list-series');
-    if (typeof animeData !== 'undefined') renderCategory(animeData, 'list-anime'); // เรียกการ์ตูน
+    if (typeof animeData !== 'undefined') {
+        const sortedAnime = [...animeData].reverse(); 
+        renderCategory(sortedAnime, 'list-anime');
+    }
 });
